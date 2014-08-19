@@ -19,13 +19,16 @@
 			function create() {
 				character = new Phaser.Rectangle(380, 280, 40,40);
 				mario = game.add.sprite(100, 100, 'mario');
-				mario.anchor.setTo(0.5);
-				
+				mario.anchor.setTo(0.5, 0.5);
+
 				cursors = game.input.keyboard.createCursorKeys();
 			}
 			function update() {
 				if (cursors.up.isDown === true){
 					mario.rotation += 0.05;
+				}
+				else if (cursors.down.isDown === true){
+					mario.rotation -= 0.05;
 				}
 			}
 

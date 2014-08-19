@@ -31,7 +31,10 @@
 					mario.rotation -= 0.05;
 				}
 				else if (cursors.right.isDown === true){
-					mario.x += 0.05;
+					mario.x += 0.5;
+				}
+				else (cursors.left.isDown === true){
+					mario.x -= 0.5;
 				}
 
 			}

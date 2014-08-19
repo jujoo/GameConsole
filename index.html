@@ -7,10 +7,11 @@
 <body>
 	<script type="text/javascript">
 		window.onload = function() {
-			var game = new Phaser.Game(800,600, Phaser.AUTO,'',{preload: preload, create:create, render: render });
+			var game = new Phaser.Game(800,600, Phaser.AUTO,'',{preload: preload, create:create, update: update, render: render });
 
 			var character;
 			var mario;
+			var cursors;
 
 			function preload() {
 				game.load.image('mario', 'assets/mario.png');
@@ -18,10 +19,20 @@
 			function create() {
 				character = new Phaser.Rectangle(380, 280, 40,40);
 				mario = game.add.sprite(100, 100, 'mario');
+
+				cursors = game.input.keyboard.createCursorKeys();
 			}
+			function update() {
+				if (cursors.up.isDown === true){
+					mario.rotation += 0.05;
+				}
+			}
+
 			function render() {
 				game.debug.geom(character, '#00afff');
 			}
+			
+
 		}; 
 	</script>
 </body>

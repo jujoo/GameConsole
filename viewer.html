@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simple Game Console</title>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/phaser/2.0.6/phaser.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+	window.onload = function() {
+		var socket = io();
+		socket.on('move', function(msg){
+			console.log('move: '+ msg);
+			if (msg === 'up'){
+				mario.y = mario.y - 30;
+			}
+			else if (msg === 'down'){
+				mario.y = mario.y + 30;
+			}
+			else if (msg === 'right'){
+				mario.x = mario.x + 30;
+			}
+			else if (msg === 'left'){
+				mario.x = mario.x - 30;
+			}
+		});
+
+		var game = new Phaser.Game(800,600, Phaser.AUTO,'',{preload: preload, create:create, update: update, render: render });
+
+		var character;
+		var mario;
+		var cursors;
+
+			function preload() {
+				game.load.image('mario', 'assets/mario.png');
+			}
+			function create() {
+				//character = new Phaser.Rectangle(380, 280, 40,40);
+				mario = game.add.sprite(100, 100, 'mario');
+				mario.anchor.setTo(0.5, 0.5);
+
+				cursors = game.input.keyboard.createCursorKeys();
+			}
+			function moveUp() {
+				//mario.y -= 10;
+				socket.emit('move', 'up');
+			}
+			function moveDown() {
+				//mario.y += 10;
+				socket.emit('move', 'down');
+			}
+			function moveRight() {
+				//mario.x += 10;
+				socket.emit('move', 'right');
+			}
+			function moveLeft() {
+				//mario.x -= 10;
+				socket.emit('move', 'left');
+			}
+			//키보드로 조작
+			function update() {
+			/*	if (cursors.up.isDown === true){
+
+					mario.rotation += 0.05;
+				}
+				else if (cursors.down.isDown === true){
+					mario.rotation -= 0.05;
+				}
+				else if (cursors.right.isDown === true){
+					mario.x += 5;
+				}
+				else if (cursors.left.isDown === true){
+					mario.x -= 5;
+				}*/
+			}
+
+			function render() {
+				//game.debug.geom(character, '#00afff');
+			}
+		}; 
+		</script>
+	</body>
+	</html>

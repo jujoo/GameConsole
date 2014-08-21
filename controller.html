@@ -9,6 +9,7 @@
 	<script type="text/javascript">
 	window.onload = function() {
 		var socket = io();
+		socket.emit('identify', 'controller');
 		/*socket.on('move', function(msg){
 			console.log('move: '+ msg);
 			if (msg === 'up'){
@@ -31,41 +32,48 @@
 		//var mario;
 		var cursors;
 
-			function preload() {
-				game.load.image('up', 'assets/up.png');
-				game.load.image('down', 'assets/down.png');
-				game.load.image('right', 'assets/right.png');
-				game.load.image('left', 'assets/left.png');
-			}
-			function create() {
-				up = game.add.button(150, 50, 'up', moveUp);
-				down = game.add.button(150, 250, 'down', moveDown);
-				right = game.add.button(250, 150, 'right', moveRight);
-				left = game.add.button(50, 150, 'left', moveLeft);
+		function preload() {
+			game.load.image('up', 'assets/up.png');
+			game.load.image('down', 'assets/down.png');
+			game.load.image('right', 'assets/right.png');
+			game.load.image('left', 'assets/left.png');
+		}
+		function create() {
+			up = game.add.button(150, 50, 'up', moveUp);
+			down = game.add.button(150, 250, 'down', moveDown);
+			right = game.add.button(250, 150, 'right', moveRight);
+			left = game.add.button(50, 150, 'left', moveLeft);
 
-				cursors = game.input.keyboard.createCursorKeys();
-			}
-			function moveUp() {
-				//mario.y -= 10;
-				socket.emit('move', 'up');
-			}
-			function moveDown() {
-				//mario.y += 10;
-				socket.emit('move', 'down');
-			}
-			function moveRight() {
-				//mario.x += 10;
-				socket.emit('move', 'right');
-			}
-			function moveLeft() {
-				//mario.x -= 10;
-				socket.emit('move', 'left');
-			}
-			//키보드로 조작
-			function update() {
-			/*	if (cursors.up.isDown === true){
-
-					mario.rotation += 0.05;
+			cursors = game.input.keyboard.createCursorKeys();
+		}
+		function moveUp() {
+			var msg = {};
+			msg.direction = 'up';
+			//mario.y -= 10;
+			socket.emit('move', msg);
+		}
+		function moveDown() {
+			var msg = {};
+			msg.direction = 'down';
+			//mario.y += 10;
+			socket.emit('move', msg);
+		}
+		function moveRight() {
+			var msg = {};
+			msg.direction = 'right';
+			//mario.x += 10;
+			socket.emit('move', msg);
+		}
+		function moveLeft() {
+			//mario.x -= 10;
+			var msg = {};
+			msg.direction = 'left';
+			socket.emit('move', msg);
+		}
+		//키보드로 조작
+		function update() {
+		/*	if (cursors.up.isDown === true){
+				mario.rotation += 0.05;
 				}
 				else if (cursors.down.isDown === true){
 					mario.rotation -= 0.05;
